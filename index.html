@@ -9,12 +9,13 @@
 	</style>
 </head>
 <body>
-	<canvas id="main_canvas" width="1898" height="1056">
-	</canvas>
+	<!-- <canvas id="main_canvas" width="1898" height="1056"></canvas> -->
 </body>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script type="text/javascript" src="firework.js"></script>
 <script type="text/javascript">
+	var width = $(window).width();
+	var height = $(document).height();
 	firework.init( 'main_canvas' );
 	// $('#main_canvas').bind( 'mousedown', firework.explode );
 	$('#main_canvas').bind( 'mousedown', firework.path );

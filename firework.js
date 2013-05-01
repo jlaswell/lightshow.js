@@ -24,9 +24,21 @@ window.requestAnimFrame = (function(){
 	/* Sky color. */
 	clear_color = '#010101';
 	function Chrysanthemum( x, y, red, green, blue ) {
-		Particle.call( this, x, y, red, green, blue )
+		Particle.call( this, x, y, red, green, blue );
 	};
 	Chrysanthemum.prototype = Object.create( Particle.prototype );
+	function Dahlia( x, y, red, green, blue ) {
+		Particle.call( this, x, y, red, green, blue );
+		this.radius = (Math.random() > 0.8)?1.5:1;
+		this.alpha = 1.5;
+	};
+	Dahlia.prototype = Object.create( Particle.prototype );
+	function Peony( x, y, red, green, blue ) {
+		Particle.call( this, x, y, red, green, blue );
+		this.vx = (Math.random() > 0.45)?this.vx * 0.15:this.vx;
+		this.vy = (Math.random() > 0.45)?this.vy * 0.15:this.vy;
+	}
+	Peony.prototype = Object.create( Particle.prototype );
 	/* Array of currently visible particles. */
 	particles = [];
 	/* Particle 'class' to represent sparks. */
@@ -111,7 +123,7 @@ window.requestAnimFrame = (function(){
 		};
 		this.ignite = function() {
 			for( var i = 0; i < this.density; i++ ) {
-				particles.push( new Particle( this.x, this.y ));
+				particles.push( new Peony( this.x, this.y ));
 			}
 			audio_( 'explosion' );
 		}
@@ -311,8 +323,8 @@ window.requestAnimFrame = (function(){
 		},
 		/* Initialization function where id_ is the id of the canvas you want to draw to. */
 		init: function( id_ ) {
-			var id = id_;
-			set_( 'canvas', document.getElementById( id ));
+			$('body').append( '<canvas id="' + id_ + '" width="' + (width - 20) + '" height="' + (2 * (height - 34) / 3) + '"></canvas>' );
+			set_( 'canvas', document.getElementById( id_ ));
 			context = get_( 'canvas' ).getContext( '2d' );
 			set_( 'width', get_( 'canvas' ).width );
 			set_( 'height', get_( 'canvas' ).height );
