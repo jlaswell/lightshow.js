@@ -10,16 +10,29 @@
 </head>
 <body>
 	<!-- <canvas id="main_canvas" width="1898" height="1056"></canvas> -->
+	<footer>
+		<p id="output"></p>
+	</footer>
 </body>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script type="text/javascript" src="lightshow.js"></script>
 <script type="text/javascript">
 	var width = $(window).width();
 	var height = $(document).height();
-	firework.init( 'main_canvas' );
-	// $('#main_canvas').bind( 'mousedown', firework.explode );
-	$('#main_canvas').bind( 'mousedown', firework.path );
-	firework.start();
-	// firework.fireRandom( 1800 );
+	lightshow.init( 'main_canvas' );
+	// $('#main_canvas').bind( 'mousedown', lightshow.explode );
+	$('#main_canvas').bind( 'mousedown', lightshow.path );
+	lightshow.start();
+	lightshow.fireRandom( 1800 );
+	lightshow.fireRandom( 3100 );
+	var current_lag = particles.length + shells.length;
+	var output = $('#output');
+	function lagometer( previous_lag ) {
+		lag = particles.length + shells.length;
+		if( previous_lag !== lag ) {
+			output.html( lag );
+		}
+	}
+	window.setInterval( lagometer, 1000 );
 </script>
 </html>

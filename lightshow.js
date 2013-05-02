@@ -8,7 +8,7 @@ window.requestAnimFrame = (function(){
 			window.setTimeout(callback, 1000 / 60);
 		  };
 })();
-;var firework = function() {
+;var lightshow = function() {
 	/* 'Protected' data object. */
 	var data = window.data || {};
 	/* 'Private' data object. */
@@ -29,22 +29,26 @@ window.requestAnimFrame = (function(){
 	Chrysanthemum.prototype = Object.create( Particle.prototype );
 	function Dahlia( x, y, red, green, blue ) {
 		Particle.call( this, x, y, red, green, blue );
-		this.radius = (Math.random() > 0.8)?1.5:1;
+		this.radius = (Math.random() > 0.8)?this.radius*1.76:this.radius;
 		this.alpha = 1.5;
 	};
 	Dahlia.prototype = Object.create( Particle.prototype );
 	function Peony( x, y, red, green, blue ) {
 		Particle.call( this, x, y, red, green, blue );
-		this.vx = (Math.random() > 0.45)?this.vx * 0.15:this.vx;
-		this.vy = (Math.random() > 0.45)?this.vy * 0.15:this.vy;
+		this.vx = (Math.random() > 0.76)?this.vx * 0.24:this.vx;
+		this.vy = (Math.random() > 0.76)?this.vy * 0.24:this.vy;
 	}
 	Peony.prototype = Object.create( Particle.prototype );
+	/* Maximum amount of particles to draw to the screen in a single frame.
+	 * Adjust this value to enhance performance if needed.
+	 */
+	var threshold = 1800;
 	/* Array of currently visible particles. */
 	particles = [];
 	/* Particle 'class' to represent sparks. */
 	function Particle( x, y, red, green, blue ) {
 		/* This particle is the size of its radius, of course. */
-		this.radius = 1;
+		this.radius = 0.76;
 		/* Set the coordinates if desired, else pick a random point within the canvas. */
 		this.x = x || Math.random() * get_( 'width' );
 		this.y = y || Math.random() * get_( 'height' );
@@ -58,8 +62,8 @@ window.requestAnimFrame = (function(){
 		/* Help randomize the explosion vectors. */
 		var tmp = this.radius * Math.sqrt( Math.random() );
 		/* Set a random velocity to represent direction of this particle at the break. */
-		this.vx = Math.pow( tmp, 2) * Math.random() * Math.PI * 2 * xDir;
-		this.vy = Math.pow( tmp, 2) * Math.random() * Math.PI * 2 * yDir;
+		this.vx = Math.pow( tmp, 2) * Math.random() * Math.PI * 4 * xDir;
+		this.vy = Math.pow( tmp, 2) * Math.random() * Math.PI * 4 * yDir;
 		/* Call this to update the particle. */
 		this.draw = function() {
 			context.fillStyle = 'rgba( ' + this.red + ', ' + this.green + ', ' + this.blue + ', ' + this.alpha + ' )';
@@ -78,7 +82,7 @@ window.requestAnimFrame = (function(){
 	shells = [];
 	function Shell( x, y, red, green, blue ) {
 		this.radius = 1;
-		this.density = 80;
+		this.density = 120;
 		/* The coordinates of the location that the shell was aimed at on launch. */
 		this.final_x = x + (-25 + 50 * Math.random()) || Math.random() * get_( 'width' );
 		this.final_y = y + (-25 + 50 * Math.random()) || Math.random() * get_( 'height' );
@@ -146,10 +150,13 @@ window.requestAnimFrame = (function(){
 		}
 		for( var i = 0; i < particles.length; i++ ) {
 			var p = particles[ i ];
-			p.update( 0.5 );
+			p.update( 0.24 );
 			if( p.alpha <= 0 ) {
 				particles.splice( i, 1 );
 			}
+		}
+		if( particles.length > threshold ) {
+			particles.splice( 0, particles.length - threshold );
 		}
 	};
 	function clear_() {
@@ -323,7 +330,7 @@ window.requestAnimFrame = (function(){
 		},
 		/* Initialization function where id_ is the id of the canvas you want to draw to. */
 		init: function( id_ ) {
-			$('body').append( '<canvas id="' + id_ + '" width="' + (width - 20) + '" height="' + (2 * (height - 34) / 3) + '"></canvas>' );
+			$('body').prepend( '<canvas id="' + id_ + '" width="' + (width - 20) + '" height="' + (2 * (height - 34) / 3) + '"></canvas>' );
 			set_( 'canvas', document.getElementById( id_ ));
 			context = get_( 'canvas' ).getContext( '2d' );
 			set_( 'width', get_( 'canvas' ).width );
@@ -375,7 +382,7 @@ window.requestAnimFrame = (function(){
 		},
 		c: new Chrysanthemum( 400, 400, 55, 55, 250 ),
 		particles: particles,
-		shells: shells,
+		// shells: shells,
 		draw: draw_,
 		update: update_,
 		clear: clear_,
