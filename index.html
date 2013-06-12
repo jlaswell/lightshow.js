@@ -1,38 +1,148 @@
 <!doctype html>
-<html>
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
 <head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width" />
 	<title>Fireworks</title>
+	<link rel="stylesheet" type="text/css" href="foundation/css/normalize.css">
+	<link rel="stylesheet" type="text/css" href="foundation/css/foundation.min.css">
 	<style type="text/css">
 		#main_canvas {
-			border: 1px solid black;
+			/*border: 1px solid #FBDB9E;*/
+      box-shadow: 3px 3px #483D39;
 		}
+    .top-bar {
+      margin-bottom: 0.24em;
+    }
+    .side-nav li {
+      max-height: 1.24em;
+      overflow: hidden;
+      line-height: 1.24em;
+      transition: max-height 0.24s;
+    }
+    .side-nav li:first-child {
+      max-height: 10em;
+    }
 	</style>
+	<script type="text/javascript" src="foundation/js/vendor/custom.modernizr.js"></script>
 </head>
 <body>
-	<!-- <canvas id="main_canvas" width="1898" height="1056"></canvas> -->
-	<footer>
-		<p id="output"></p>
+  <nav class="top-bar">
+    <ul class="title-area">
+      <li class="name">
+        <h1><a href="#">lightshow.js</a></h1>
+      </li>
+      <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
+    </ul>
+  </nav>  
+  <!-- End Header and Nav -->
+  
+  <div class="row">    
+    
+    <!-- Main Content Section -->
+    <!-- This has been source ordered to come first in the markup (and on small devices) but to be to the right of the nav on larger screens -->
+    <div class="large-10 columns" id="main-content">
+      <h3>Library <small>- All of your available fireworks and effects!</small></h3>
+      <table id="library" style="width:100%;">
+      </table>
+    </div>
+    
+    
+    <!-- Nav Sidebar -->
+    <!-- This is source ordered to be pulled to the left on larger screens -->
+    <div class="large-2 columns" id="sidebar">
+      <h4>Queue <small>- What's next?</small></h4>
+      <ul class="side-nav" id="queue">
+        <li class="active"><a href="#">Section 1
+          <span>Test description - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer a felis mauris.</span>
+        </a></li>
+        <li><a href="#">Section 2
+          <span>Test description - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer a felis mauris.</span>
+        </a></li>
+        <li><a href="#">Section 3
+          <span>Test description - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer a felis mauris.</span>
+        </a></li>
+        <li><a href="#">Section 4
+          <span>Test description - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer a felis mauris.</span>
+        </a></li>
+        <li><a href="#">Section 5
+          <span>Test description - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer a felis mauris.</span>
+        </a></li>
+        <li><a href="#">Section 6
+          <span>Test description - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer a felis mauris.</span>
+        </a></li>
+      </ul>
+      
+      <p><img src="http://placehold.it/320x240&text=Ad" /></p>
+        
+    </div>
+    
+  </div>
+    
+  
+  <!-- Footer -->
+  
+  <footer class="row">
+    <div class="large-12 columns">
+      <hr />
+      <div class="row">
+        <div class="large-6 columns">
+					<p id="output"></p>
+          <p>&copy; Copyright no one at all. Go to town.</p>
+        </div>
+        <div class="large-6 columns">
+          <ul class="inline-list right">
+            <li><a href="#">Section 1</a></li>
+            <li><a href="#">Section 2</a></li>
+            <li><a href="#">Section 3</a></li>
+            <li><a href="#">Section 4</a></li>
+          </ul>
+        </div>
+      </div>
+    </div> 
 	</footer>
+  <script>
+    document.write('<script src=' +
+    ('__proto__' in {} ? 'foundation/js/vendor/zepto' : 'foundation/js/vendor/jquery') +
+    '.js><\/script>')
+    </script>
+    <script src="foundation/js/foundation/foundation.js"></script>
+    <script src="foundation/js/foundation/foundation.alerts.js"></script>
+    <script src="foundation/js/foundation/foundation.clearing.js"></script>
+    <script src="foundation/js/foundation/foundation.cookie.js"></script>
+    <script src="foundation/js/foundation/foundation.dropdown.js"></script>
+    <script src="foundation/js/foundation/foundation.forms.js"></script>
+    <script src="foundation/js/foundation/foundation.joyride.js"></script>
+    <script src="foundation/js/foundation/foundation.magellan.js"></script>
+    <script src="foundation/js/foundation/foundation.orbit.js"></script>
+    <script src="foundation/js/foundation/foundation.placeholder.js"></script>
+    <script src="foundation/js/foundation/foundation.reveal.js"></script>
+    <script src="foundation/js/foundation/foundation.section.js"></script>
+    <script src="foundation/js/foundation/foundation.tooltips.js"></script>
+    <script src="foundation/js/foundation/foundation.topbar.js"></script>
+    <script>
+    $(document).foundation();
+    </script>
 </body>
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-<script type="text/javascript" src="lightshow.js"></script>
+<script type="text/javascript" src="build/ls.js"></script>
 <script type="text/javascript">
-	var width = $(window).width();
-	var height = $(document).height();
-	lightshow.init( 'main_canvas' );
-	// $('#main_canvas').bind( 'mousedown', lightshow.explode );
+	var width = $(document).width() - $('#sidebar').width();
+	var height = $(window).height();
+	lightshow.init( 'main_canvas', 'main-content' );
 	$('#main_canvas').bind( 'mousedown', lightshow.path );
 	lightshow.start();
-	lightshow.fireRandom( 1800 );
-	lightshow.fireRandom( 3100 );
-	var current_lag = particles.length + shells.length;
+	// lightshow.fireRandom( 1800 );
+	// lightshow.fireRandom( 3100 );
+	var current_lag = lightshow.particles.length + lightshow.shells.length;
 	var output = $('#output');
 	function lagometer( previous_lag ) {
-		lag = particles.length + shells.length;
+		lag = lightshow.particles.length + lightshow.shells.length;
 		if( previous_lag !== lag ) {
 			output.html( lag );
 		}
 	}
+  $("#main_canvas").mousedown(function(){ return false; }) // Prevents highlighting on quick clicking.
 	window.setInterval( lagometer, 1000 );
 </script>
 </html>
